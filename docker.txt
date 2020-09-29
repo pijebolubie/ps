@@ -1,0 +1,81 @@
+### instalacja dockera
+yum install -y yum-utils device-mapper-persistent-data lvm2
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum install docker-ce
+systemctl enable docker
+systemctl start docker
+
+docker info
+##test dockera
+docker run hello-world
+## wyszukiwanie obrazów
+docker search nginx
+### instalacja obrazu
+docker pull nginx
+###uruchomienie obrazu
+docker run --name my-nginx-c2 -p 80:80 -v /home/vivek/html/:/usr/share/nginx/html:ro -d nginx
+gdzie:
+name - anzwa kontenera
+-p port na którum ma działać
+-v - miejsce montowania volumenu na serwis
+### test obrazu
+echo 'Welcome. I am Nginx server locked inside Docker' > /home/vivek/html/index.html
+curl http://your-host-ip-address/
+#### listowanie kontenerów
+docker ps - tylko aktywnych 
+docker ps -a  - wszystkich
+#### uruchomienie basch kontenera
+docker exec -i -t my-nginx-c2 bash
+#### zatrzymanie kontenera
+docker stop my-nginx-c2
+####logi docker
+docker logs my-nginx-c2   lub odpowiednik tail -f   docker logs -f my-nginx-c2 
+#### jak ma sie podnosić automatycznie po restarcie dodajem
+--restart always
+### jak stworzymy sobie podsieć dla danego zespołu to robimy
+docker network nazwa-sieci
+#a przy starcie dodajemy parametr
+--net nazwa-sieci
+### pełen spic parametrów run > https://docs.docker.com/engine/reference/commandline/run/
+
+##### pozwolenie nie rootom uruchomienie dockera
+dodanie usera do grupy docker
+usermod -aG docker raj
+
+##### webowy dostęp do dockera
+docker run -d -p 9000:9000 --restart always -v /var/run/docker.sock:/var/run/docker.sock -v /opt/portainer:/data portainer/portainer
+
+http://192.168.0.234:9000/#/templates pass 12345678 login:admin
+
+
+
+http://192.168.0.234:15672/#/
+
+
+#### docker compose
+yum install epel-release
+yum -y install python36
+ yum install python36-devel
+python --version
+python3 --version
+pip3 install docker-compose
+docker-compose version
+
+docker-compose up -d
+docker-compose logs -f
+docker-compose logs -f rabbit1
+
+docker-compose stop
+
+
+#uruchomienie może być z bata lob docker-compose
+#dla compose trzeba zrobić interface
+docker network create rabbitmq-cluster
+#nastepnie z folderu gdzie mamy plik docker-compose.yml wykonujemy polecenie
+docker-compose up -d
+
+
+
+
+
+

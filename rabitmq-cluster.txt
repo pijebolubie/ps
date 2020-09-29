@@ -1,0 +1,4 @@
+#zwykly cluster rabitmq
+port 4369 - port do komunikacji clustra
+port 5671 i 5672 - porty do komunikacji z aplikacją ampq
+port 15672 - port do wwww
